@@ -6,7 +6,6 @@ const morgan = require('morgan');
 const app = express();
 const mongoose = require('mongoose');
 const router = require('./router');
-const ModelClass = require('./models/user');
 
 // db
 mongoose.connect('mongodb://localhost:auth/auth');
