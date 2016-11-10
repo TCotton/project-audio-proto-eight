@@ -6,7 +6,8 @@ const morgan = require('morgan');
 const app = express();
 
 // App Set up
-
+app.use(morgan('combined'));
+app.use(bodyParser.json({type: '*/*'}));
 
 
 // Server setup
