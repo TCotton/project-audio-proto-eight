@@ -19,12 +19,6 @@ const localLogin = new LocalStrategy({
 			return done(err);
 		}
 
-		console.log('password');
-		console.log(password);
-
-		console.log('user');
-		console.log(user);
-
 		if (!user) {
 			return done(null, false);
 		}
