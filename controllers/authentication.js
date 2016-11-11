@@ -1,9 +1,29 @@
 const User = require('../models/user');
+const jwt = require('jwt-simple');
+const config = require('../config');
 
-exports.signup = function(req, res, next) {
+function tokenForUser(user) {
+
+	const timestamp = new Date().getTime();
+
+	// read documentation on JWT: https://jwt.io/
+	return jwt.encode({
+		sub: user.id,
+		iat: timestamp
+	}, config.secret);
+
+}
+
+module.exports.signup = function(req, res, next) {
 
 	const email = req.body.email;
 	const password = req.body.password;
+
+	if (!email || !password) {
+		return res.status(422).send({
+			error: 'You must provide email and password'
+		});
+	}
 
 	// see if a user with a given email exists
 	User.findOne({email: email}, (err, existingUser) => {
@@ -31,7 +51,7 @@ exports.signup = function(req, res, next) {
 			}
 
 			// Respond to request indicating the user was created
-			res.json(user);
+			res.json({token: tokenForUser(user)});
 
 		});
 
