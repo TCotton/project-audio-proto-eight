@@ -19,9 +19,30 @@ const localLogin = new LocalStrategy({
 			return done(err);
 		}
 
-		!user ? done(null, false) : done();
+		console.log('password');
+		console.log(password);
+
+		console.log('user');
+		console.log(user);
+
+		if (!user) {
+			return done(null, false);
+		}
 
 		// compare passwords - is 'password' equal to user.password
+		user.comparePassword(password, (err, isMatch) => {
+
+			if (err) {
+				return done(err);
+			}
+
+			if(!isMatch) {
+				return done(null, user);
+			}
+
+			return done(null, user);
+
+		});
 
 	});
 
@@ -53,3 +74,4 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
 
 // Tell passport to use this strategy
 passport.use(jwtLogin);
+passport.use(localLogin);

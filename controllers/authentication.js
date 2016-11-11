@@ -14,7 +14,16 @@ function tokenForUser(user) {
 
 }
 
-module.exports.signup = function(req, res, next) {
+exports.signin = function(req, res, next) {
+	// User has already had their email and password auth'd
+	// We just need to give them a token
+
+	console.log('signin');
+
+	res.send({token: tokenForUser(req.user)});
+};
+
+exports.signup = function(req, res, next) {
 
 	const email = req.body.email;
 	const password = req.body.password;
